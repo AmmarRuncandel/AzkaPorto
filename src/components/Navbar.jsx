@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Menu, X, Code2 } from "lucide-react";
+import { Menu, X, Code2, Share2 } from "lucide-react";
+import QRCode from "react-qr-code";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const [activeSection, setActiveSection] = useState("Home");
     const [isVisible, setIsVisible] = useState(true);
+    const [showQR, setShowQR] = useState(false);
     const lastScrollY = React.useRef(0);
     
     const navItems = [
@@ -77,6 +79,7 @@ const Navbar = () => {
     };
 
     return (
+        <>
         <nav
             className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 ease-in-out w-[95%] sm:w-[90%] max-w-5xl border border-white/10 backdrop-blur-md bg-transparent ${
                 isOpen ? "rounded-2xl" : "rounded-full"
@@ -113,6 +116,15 @@ const Navbar = () => {
                                 {item.label}
                             </a>
                         ))}
+                        {/* Share QR Button */}
+                        <button
+                            onClick={() => setShowQR(true)}
+                            className="p-2 text-gray-400 hover:text-white transition-colors duration-300"
+                            aria-label="Share Portfolio"
+                        >
+                            <Share2 className="w-5 h-5" />
+                        </button>
+                        
                         {/* Sign up / Contact button */}
                         <a
                             href="#Contact"
@@ -169,6 +181,18 @@ const Navbar = () => {
                             {item.label}
                         </a>
                     ))}
+                    {/* Mobile Share Button */}
+                    <button
+                        onClick={() => { setShowQR(true); setIsOpen(false); }}
+                        className="mt-2 px-6 py-2 w-[80%] text-center text-sm font-semibold text-white border border-white/20 rounded-full hover:bg-white/10 transition-all duration-500 ease-out flex items-center justify-center gap-2"
+                        style={{
+                            transitionDelay: `${isOpen ? 150 : 0}ms`,
+                            transform: isOpen ? "translateY(0)" : "translateY(-15px)",
+                            opacity: isOpen ? 1 : 0,
+                        }}
+                    >
+                        <Share2 className="w-4 h-4" /> Share QR
+                    </button>
                     {/* Mobile Contact Button */}
                     <a
                         href="#Contact"
@@ -185,6 +209,45 @@ const Navbar = () => {
                 </div>
             </div>
         </nav>
+
+        {/* QR Code Modal */}
+        {showQR && (
+            <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 backdrop-blur-sm px-4" onClick={() => setShowQR(false)}>
+                <div 
+                    className="bg-[#133458] border border-white/10 p-6 sm:p-8 rounded-2xl shadow-2xl relative flex flex-col items-center animate-in fade-in zoom-in duration-300 max-w-sm w-full"
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    <button 
+                        onClick={() => setShowQR(false)}
+                        className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+                    >
+                        <X className="w-5 h-5" />
+                    </button>
+                    
+                    <h3 className="text-xl font-bold text-white mb-2 text-center">Share Portfolio</h3>
+                    <p className="text-sm text-gray-400 mb-6 text-center">Scan this QR code to visit my portfolio on any device.</p>
+                    
+                    <div className="bg-white p-4 rounded-xl shadow-inner mb-6">
+                        <QRCode 
+                            value="https://azkamdhmtn.vercel.app/" 
+                            size={200}
+                            level="H"
+                        />
+                    </div>
+
+                    <button 
+                        onClick={() => {
+                            navigator.clipboard.writeText("https://azkamdhmtn.vercel.app/");
+                            alert("Link copied to clipboard!");
+                        }}
+                        className="w-full py-3 bg-gradient-to-r from-[#38BDF8] to-[#818CF8] text-white rounded-xl font-semibold transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+                    >
+                        Copy Link
+                    </button>
+                </div>
+            </div>
+        )}
+        </>
     );
 };
 

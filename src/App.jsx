@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React, { useState } from 'react';
+import QRCode from "react-qr-code";
 import "./index.css";
 import Home from "./Pages/Home";
 import About from "./Pages/About";
@@ -28,9 +29,19 @@ const LandingPage = ({ showWelcome, setShowWelcome }) => {
           <About />
           <Portofolio />
           <ContactPage />
-          <footer>
+          <footer className="pb-8">
             <center>
               <hr className="my-3 border-[var(--color-text-muted)] opacity-15 sm:mx-auto lg:my-6 text-center" />
+              <div className="flex flex-col items-center justify-center mb-6 mt-4">
+                <p className="text-sm text-textMuted mb-3">Scan to Share Portfolio</p>
+                <div className="bg-white p-2 rounded-lg shadow-lg hover:scale-105 transition-transform duration-300">
+                  <QRCode 
+                      value="https://azkamdhmtn.vercel.app/" 
+                      size={100}
+                      level="H"
+                  />
+                </div>
+              </div>
               <span className="block text-sm pb-4 text-[#93aaa8] text-center dark:text-textMuted">
                 © 2026{" "}
                 <a href="https://flowbite.com/" className="hover:underline">
