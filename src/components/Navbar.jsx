@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Menu, X, Code2, Share2 } from "lucide-react";
+import { Menu, X, Code2, Share2, Copy } from "lucide-react";
 import QRCode from "react-qr-code";
+import Swal from "sweetalert2";
+import WhatsappIcon from "./WhatsappIcon";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -235,15 +237,42 @@ const Navbar = () => {
                         />
                     </div>
 
-                    <button 
-                        onClick={() => {
-                            navigator.clipboard.writeText("https://azkamdhmtn.vercel.app/");
-                            alert("Link copied to clipboard!");
-                        }}
-                        className="w-full py-3 bg-gradient-to-r from-[#38BDF8] to-[#818CF8] text-white rounded-xl font-semibold transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
-                    >
-                        Copy Link
-                    </button>
+                    <div className="flex flex-col sm:flex-row gap-3 w-full">
+                        <button 
+                            onClick={() => {
+                                navigator.clipboard.writeText("https://azkamdhmtn.vercel.app/");
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Link Tersalin!',
+                                    text: 'Link portofolio berhasil disalin ke clipboard.',
+                                    background: '#133458',
+                                    color: '#F8FAFC',
+                                    confirmButtonColor: '#38BDF8',
+                                    timer: 2000,
+                                    showConfirmButton: false,
+                                    customClass: {
+                                        popup: 'rounded-2xl border border-white/10 shadow-2xl',
+                                    }
+                                });
+                            }}
+                            className="flex-1 py-3 bg-white/10 border border-white/20 text-white rounded-xl font-semibold transition-all duration-300 hover:bg-white/20 active:scale-[0.98] flex items-center justify-center gap-2"
+                        >
+                            <Copy className="w-5 h-5" />
+                            Copy Link
+                        </button>
+
+                        <button 
+                            onClick={() => {
+                                const text = "Halo! 👋 Aku mau merekomendasikan Portofolio milik Azka Mudhamatan. Desainnya keren banget!\n\nLangsung cek aja webnya di sini ya: https://azkamdhmtn.vercel.app/\n\nAtau kamu juga bisa scan QR Code yang ada di webnya. Yuk dilihat!";
+                                const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(text)}`;
+                                window.open(whatsappUrl, '_blank');
+                            }}
+                            className="flex-1 py-3 bg-gradient-to-r from-[#25D366] to-[#128C7E] text-white rounded-xl font-semibold transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-[#25D366]/30 active:scale-[0.98] flex items-center justify-center gap-2"
+                        >
+                            <WhatsappIcon className="w-5 h-5" />
+                            WhatsApp
+                        </button>
+                    </div>
                 </div>
             </div>
         )}
