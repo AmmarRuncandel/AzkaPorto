@@ -1,8 +1,144 @@
 import React, { useState, useEffect } from "react";
-import { Menu, X, Code2, Share2, Copy } from "lucide-react";
+import { Menu, X, Share2, Copy } from "lucide-react";
 import QRCode from "react-qr-code";
 import Swal from "sweetalert2";
 import WhatsappIcon from "./WhatsappIcon";
+
+const defaultFormalText = `Dear Sir/Madam / Hiring Manager,\n\nI hope this message finds you well.\n\nMy name is Azka Mudhamatan, a Nautical Cadet from Academy Maritime Cirebon (AMC). I am pleased to present my professional portfolio, certificates of proficiency, and educational background for your consideration.\n\nOnline Portfolio:\nhttps://azkamdhmtn.vercel.app/\n\nThank you for your time and consideration.\n\nBest regards,\nAzka Mudhamatan\nNautical Cadet | Deck Department\nWhatsApp: +62 895-1985-8776`;
+
+const createShareCardBlob = async (qrImageUrl) => {
+    return new Promise((resolve) => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        const width = 800;
+        const height = 1180;
+        canvas.width = width;
+        canvas.height = height;
+
+        // Background Gradient
+        const gradient = ctx.createLinearGradient(0, 0, 0, height);
+        gradient.addColorStop(0, '#061a2e');
+        gradient.addColorStop(0.5, '#0b2b48');
+        gradient.addColorStop(1, '#051322');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, width, height);
+
+        // Border Accent
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.35)';
+        ctx.lineWidth = 4;
+        ctx.strokeRect(20, 20, width - 40, height - 40);
+
+        // Inner Glass Card Box
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.04)';
+        if (ctx.roundRect) {
+            ctx.beginPath();
+            ctx.roundRect(40, 40, width - 80, height - 80, 24);
+            ctx.fill();
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        } else {
+            ctx.fillRect(40, 40, width - 80, height - 80);
+        }
+
+        // Header Title
+        ctx.fillStyle = '#38bdf8';
+        ctx.font = 'bold 28px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('AZKA MUDHAMATAN', width / 2, 90);
+
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '500 18px sans-serif';
+        ctx.fillText('Nautical Cadet | Deck Department', width / 2, 120);
+
+        // Divider Line
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+        ctx.beginPath();
+        ctx.moveTo(80, 140);
+        ctx.lineTo(width - 80, 140);
+        ctx.stroke();
+
+        // Formal Message Text Lines (Word Wrap)
+        const rawLines = defaultFormalText.split('\n');
+        const lines = [];
+        rawLines.forEach(rawLine => {
+            if (rawLine.length > 48) {
+                const words = rawLine.split(' ');
+                let current = '';
+                words.forEach(w => {
+                    if ((current + ' ' + w).length > 48) {
+                        lines.push(current);
+                        current = w;
+                    } else {
+                        current = current ? current + ' ' + w : w;
+                    }
+                });
+                if (current) lines.push(current);
+            } else {
+                lines.push(rawLine);
+            }
+        });
+
+        let startY = 175;
+        ctx.textAlign = 'left';
+        lines.slice(0, 15).forEach(line => {
+            if (line.startsWith("Dear") || line.startsWith("Online Portfolio:")) {
+                ctx.fillStyle = '#38bdf8';
+                ctx.font = 'bold 17px sans-serif';
+            } else {
+                ctx.fillStyle = '#e2e8f0';
+                ctx.font = '16px sans-serif';
+            }
+            ctx.fillText(line, 80, startY);
+            startY += 26;
+        });
+
+        // Load QR Code Image
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => {
+            const qrSize = 220;
+            const qrX = (width - qrSize) / 2;
+            const qrY = Math.max(startY + 15, 640);
+
+            // White Box behind QR Code
+            ctx.fillStyle = '#ffffff';
+            if (ctx.roundRect) {
+                ctx.beginPath();
+                ctx.roundRect(qrX - 15, qrY - 15, qrSize + 30, qrSize + 30, 16);
+                ctx.fill();
+            } else {
+                ctx.fillRect(qrX - 15, qrY - 15, qrSize + 30, qrSize + 30);
+            }
+
+            // Draw QR Code
+            ctx.drawImage(img, qrX, qrY, qrSize, qrSize);
+
+            // Caption under QR
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '500 16px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('Scan to View Online Portfolio', width / 2, qrY + qrSize + 40);
+
+            ctx.fillStyle = '#38bdf8';
+            ctx.font = '600 16px sans-serif';
+            ctx.fillText('https://azkamdhmtn.vercel.app/', width / 2, qrY + qrSize + 65);
+
+            canvas.toBlob((blob) => {
+                resolve(blob);
+            }, 'image/png');
+        };
+
+        img.onerror = () => {
+            canvas.toBlob((blob) => {
+                resolve(blob);
+            }, 'image/png');
+        };
+
+        img.src = qrImageUrl;
+    });
+};
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -255,19 +391,35 @@ const Navbar = () => {
                                     }
                                 });
                             }}
-                            className="flex-1 py-3 bg-white/10 border border-white/20 text-white rounded-xl font-semibold transition-all duration-300 hover:bg-white/20 active:scale-[0.98] flex items-center justify-center gap-2"
+                            className="flex-1 py-3 bg-white/10 border border-white/20 text-white rounded-xl font-semibold transition-all duration-300 hover:bg-white/20 active:scale-[0.98] flex items-center justify-center gap-2 text-sm"
                         >
                             <Copy className="w-5 h-5" />
                             Copy Link
                         </button>
 
                         <button 
-                            onClick={() => {
-                                const text = "Halo! 👋 Aku mau merekomendasikan Portofolio milik Azka Mudhamatan. Desainnya keren banget!\n\nLangsung cek aja webnya di sini ya: https://azkamdhmtn.vercel.app/\n\nAtau kamu juga bisa scan QR Code yang ada di webnya. Yuk dilihat!";
-                                const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(text)}`;
+                            onClick={async () => {
+                                const portfolioUrl = "https://azkamdhmtn.vercel.app/";
+                                const qrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=${encodeURIComponent(portfolioUrl)}`;
+
+                                try {
+                                    const cardBlob = await createShareCardBlob(qrImageUrl);
+                                    const file = new File([cardBlob], 'Azka_Mudhamatan_Portfolio_QR_Card.png', { type: 'image/png' });
+
+                                    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                                        await navigator.share({
+                                            files: [file],
+                                        });
+                                        return;
+                                    }
+                                } catch (err) {
+                                    console.log('Web share API fallback', err);
+                                }
+
+                                const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(defaultFormalText)}`;
                                 window.open(whatsappUrl, '_blank');
                             }}
-                            className="flex-1 py-3 bg-gradient-to-r from-[#25D366] to-[#128C7E] text-white rounded-xl font-semibold transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-[#25D366]/30 active:scale-[0.98] flex items-center justify-center gap-2"
+                            className="flex-1 py-3 bg-gradient-to-r from-[#25D366] to-[#128C7E] text-white rounded-xl font-semibold transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-[#25D366]/30 active:scale-[0.98] flex items-center justify-center gap-2 text-sm"
                         >
                             <WhatsappIcon className="w-5 h-5" />
                             WhatsApp
@@ -281,5 +433,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-
