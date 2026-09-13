@@ -23,17 +23,17 @@ const StatusBadge = memo(() => (
 
 const MainTitle = memo(() => (
   <div className="space-y-1 sm:space-y-2" data-aos="fade-up" data-aos-delay="600">
-    <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-bold tracking-tight leading-tight">
+    <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl font-bold tracking-tight leading-tight">
       <span className="relative block">
         <span className="absolute -inset-2 bg-gradient-to-r from-primary to-textMain blur-2xl opacity-20"></span>
-        <span className="relative bg-gradient-to-r from-white via-textMain to-textMain bg-clip-text text-transparent">
-          Nautical Student
+        <span className="relative text-white font-extrabold drop-shadow-sm">
+          Hi, Im
         </span>
       </span>
-      <span className="relative block -mt-1 sm:-mt-2">
+      <span className="relative block mt-1 sm:mt-2">
         <span className="absolute -inset-2 bg-gradient-to-r from-primary to-textMain blur-2xl opacity-20"></span>
-        <span className="relative text-lg sm:text-xl md:text-2xl lg:text-2xl xl:text-3xl font-semibold bg-gradient-to-r from-primary to-textMain bg-clip-text text-transparent leading-none">
-          at Academy Maritim Cirebon
+        <span className="relative text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-extrabold bg-gradient-to-r from-primary via-[#38bdf8] to-textMain bg-clip-text text-transparent leading-tight block">
+          Azka Mudhamatan
         </span>
       </span>
     </h1>
@@ -78,7 +78,7 @@ const SocialLink = memo(({ icon: Icon, link }) => (
 const TYPING_SPEED = 100;
 const ERASING_SPEED = 50;
 const PAUSE_DURATION = 2000;
-const WORDS = ["Deck Departemen", "Academy Maritim"];
+const WORDS = ["Nautical Student ", "Academy Maritime Cirebon"];
 const TECH_STACK = ["STCW Certified", "Aspiring Deck Kadet", "Navigation, Maritime Safety & Opreration"];
 const SOCIAL_LINKS = [
   { icon: WhatsappIcon, link: "https://wa.me/6289519858776" },
@@ -151,7 +151,7 @@ const Home = () => {
     <div className="min-h-screen bg-secondary overflow-hidden px-[5%] sm:px-[5%] lg:px-[10%] " id="Home">
       <div className={`relative z-10 transition-all duration-1000 ${isLoaded ? "opacity-100" : "opacity-0"}`}>
         <div className="container mx-auto  min-h-screen ">
-          <div className="flex flex-col lg:flex-row items-center justify-center min-h-screen pt-24 lg:pt-0 md:justify-between gap-4 sm:gap-12 lg:gap-20">
+          <div className="flex flex-col lg:flex-row items-center justify-center min-h-screen pt-32 sm:pt-36 lg:pt-28 md:justify-between gap-4 sm:gap-12 lg:gap-20">
             {/* Left Column */}
             <div className="w-full lg:w-1/2 space-y-6 sm:space-y-8 text-left lg:text-left order-1 lg:order-1 lg:mt-0"
               data-aos="fade-right"

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { AppBar, Tabs, Tab, Box } from "@mui/material";
-import { Award, FileText } from "lucide-react";
+import { Award, FileText, GraduationCap, School, Calendar } from "lucide-react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import Certificate from "../components/Certificate";
@@ -102,6 +102,41 @@ export default function Portofolio() {
     { id: 4, ImgSertif: "https://images.unsplash.com/photo-1618044733300-9472054094ee?auto=format&fit=crop&q=80&w=800" }
   ];
 
+  const educationData = [
+    {
+      id: 1,
+      level: "Diploma in Nautical Studies",
+      institution: "AMC Bekasi",
+      date: "Present",
+      status: "Active Student",
+      isCurrent: true,
+    },
+    {
+      id: 2,
+      level: "Senior High School",
+      institution: "SMAN 2 Tasikmalaya",
+      date: "Tasikmalaya, May 6th 2024",
+      status: "Graduated",
+      isCurrent: false,
+    },
+    {
+      id: 3,
+      level: "Junior High School",
+      institution: "SMPN 13 Tasikmalaya",
+      date: "Tasikmalaya, June 3th 2021",
+      status: "Graduated",
+      isCurrent: false,
+    },
+    {
+      id: 4,
+      level: "Elementary School",
+      institution: "SDN Gunung Batu",
+      date: "Tasikmalaya, June 8th 2018",
+      status: "Graduated",
+      isCurrent: false,
+    }
+  ];
+
   const toggleShowMore = useCallback((type) => {
     if (type === 'certificates') {
       setShowAllCertificates(prev => !prev);
@@ -124,11 +159,15 @@ export default function Portofolio() {
             backgroundClip: 'text',
             WebkitTextFillColor: 'transparent'
           }}>
-            {value === 0 ? "Certificates Showcase" : "Documents Showcase"}
+            {value === 0 ? "Certificates Showcase" : value === 1 ? "Documents Showcase" : "Education Background"}
           </span>
         </h2>
         <p className="text-textMuted max-w-2xl mx-auto text-sm md:text-base mt-2">
-          Explore my {value === 0 ? "certifications" : "professional documents"} validations.
+          {value === 0 
+            ? "Explore my certifications validations." 
+            : value === 1 
+            ? "Explore my professional documents validations." 
+            : "Explore my academic background and educational journey."}
         </p>
       </div>
 
@@ -171,6 +210,7 @@ export default function Portofolio() {
         >
           <Tab icon={<Award className="w-5 h-5 mb-0" />} label="Certificates" />
           <Tab icon={<FileText className="w-5 h-5 mb-0" />} label="Documents" />
+          <Tab icon={<GraduationCap className="w-5 h-5 mb-0" />} label="Education" />
         </Tabs>
       </AppBar>
 
@@ -224,6 +264,52 @@ export default function Portofolio() {
                 />
               </div>
             )}
+          </div>
+        )}
+      </Box>
+
+      <Box role="tabpanel" hidden={value !== 2}>
+        {value === 2 && (
+          <div className="container mx-auto flex flex-col justify-center items-center overflow-hidden pb-[5%]">
+            <div className="w-full max-w-4xl mx-auto space-y-6">
+              {educationData.map((edu, index) => (
+                <div
+                  key={edu.id}
+                  className="relative group bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 sm:p-8 transition-all duration-500 hover:border-primary/40 hover:bg-white/[0.08] hover:shadow-[0_0_30px_rgba(56,189,248,0.15)]"
+                  data-aos="fade-up"
+                  data-aos-duration={800 + index * 200}
+                >
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-textMain/20 border border-white/10 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
+                        <GraduationCap className="w-6 h-6 text-primary" />
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-3 flex-wrap">
+                          <h3 className="text-xl sm:text-2xl font-bold text-white group-hover:text-primary transition-colors">
+                            {edu.level}
+                          </h3>
+                          <span className={`px-3 py-1 text-xs font-semibold rounded-full border ${edu.isCurrent ? 'bg-primary/20 text-primary border-primary/30' : 'bg-white/10 text-gray-300 border-white/10'}`}>
+                            {edu.status}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2 mt-1 text-textMuted text-sm sm:text-base font-medium">
+                          <School className="w-4 h-4 text-primary/80" />
+                          <span>{edu.institution}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col md:items-end gap-1 border-t md:border-t-0 border-white/10 pt-3 md:pt-0">
+                      <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-300 font-mono bg-white/5 px-3 py-1.5 rounded-lg border border-white/10">
+                        <Calendar className="w-4 h-4 text-primary" />
+                        <span>{edu.date}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </Box>

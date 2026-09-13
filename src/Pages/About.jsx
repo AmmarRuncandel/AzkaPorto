@@ -1,5 +1,5 @@
 import React, { useEffect, memo, useMemo } from "react"
-import { FileText, Code, Award, Globe, ArrowUpRight, Sparkles, UserCheck, Folder } from "lucide-react"
+import { FileText, Code, Award, Globe, ArrowUpRight, Sparkles, UserCheck, Folder, GraduationCap } from "lucide-react"
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 
@@ -53,6 +53,7 @@ const ProfileImage = memo(() => (
             src="/Photo.jpg"
             alt="Profile"
             className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:rotate-2"
+            style={{ objectPosition: 'center 20%' }}
             loading="lazy"
           />
 
@@ -71,7 +72,12 @@ const ProfileImage = memo(() => (
 const StatCard = memo(({ icon: Icon, color, value, label, description, animation, action }) => {
   const handleClick = () => {
     if (action) {
-      window.dispatchEvent(new CustomEvent('changeTab', { detail: { tab: action === 'certificates' ? 0 : 1 } }));
+      let tabIndex = 0;
+      if (action === 'certificates') tabIndex = 0;
+      else if (action === 'documents') tabIndex = 1;
+      else if (action === 'education') tabIndex = 2;
+
+      window.dispatchEvent(new CustomEvent('changeTab', { detail: { tab: tabIndex } }));
       setTimeout(() => {
         const section = document.getElementById('Portofolio');
         if (section) {
@@ -186,29 +192,30 @@ const AboutPage = () => {
       icon: Award,
       color: "from-textMain to-primary",
       value: totalCertificates,
-      label: "Certificate of Profeciency",
+      label: "Certificates Showcase",
       description: "Skills validated",
       animation: "fade-up",
       action: "certificates"
     },
     {
-      icon: Globe,
-      color: "from-primary to-textMain",
-      value: YearExperience,
-      label: "Years of study",
-      description: "20 September 2024",
-      animation: "fade-left",
-    },
-    {
       icon: Folder,
       color: "from-textMain to-primary",
       value: 4,
-      label: "Documents",
+      label: "Documents Showcase",
       description: "Important files",
       animation: "fade-up",
       action: "documents"
     },
-  ], [totalCertificates, YearExperience]);
+    {
+      icon: GraduationCap,
+      color: "from-primary to-textMain",
+      value: 4,
+      label: "Education Background",
+      description: "Academic journey",
+      animation: "fade-left",
+      action: "education"
+    },
+  ], [totalCertificates]);
 
   return (
     <div
