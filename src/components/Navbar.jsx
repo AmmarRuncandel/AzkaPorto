@@ -152,6 +152,7 @@ const Navbar = () => {
         { href: "#Home", label: "Home" },
         { href: "#About", label: "About" },
         { href: "#Portofolio", label: "Portofolio" },
+        { href: "#EnglishProficiency", label: "English Proficiency" },
         { href: "#Contact", label: "Contact" },
     ];
 
@@ -240,7 +241,7 @@ const Navbar = () => {
         
                     {/* Desktop Navigation */}
                     <div className="hidden md:flex items-center space-x-6">
-                        {navItems.slice(0, 3).map((item) => (
+                        {navItems.slice(0, 4).map((item) => (
                             <a
                                 key={item.label}
                                 href={item.href}

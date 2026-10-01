@@ -23,17 +23,17 @@ const StatusBadge = memo(() => (
 
 const MainTitle = memo(() => (
   <div className="space-y-1 sm:space-y-2" data-aos="fade-up" data-aos-delay="600">
-    <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl font-bold tracking-tight leading-tight">
+    <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl font-bold tracking-normal leading-[1.05] max-w-full">
       <span className="relative block">
         <span className="absolute -inset-2 bg-gradient-to-r from-primary to-textMain blur-2xl opacity-20"></span>
-        <span className="relative text-white font-extrabold drop-shadow-sm">
-          Hi, Im
+        <span className="relative block whitespace-nowrap text-white font-extrabold drop-shadow-sm">
+          Charting my
         </span>
       </span>
       <span className="relative block mt-1 sm:mt-2">
         <span className="absolute -inset-2 bg-gradient-to-r from-primary to-textMain blur-2xl opacity-20"></span>
-        <span className="relative text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-extrabold bg-gradient-to-r from-primary via-[#38bdf8] to-textMain bg-clip-text text-transparent leading-tight block">
-          Azka Mudhamatan
+        <span className="relative block whitespace-nowrap text-3xl sm:text-4xl md:text-5xl lg:text-4xl xl:text-5xl font-extrabold bg-gradient-to-r from-primary via-[#38bdf8] to-textMain bg-clip-text text-transparent leading-[1.05]">
+          Course at Sea
         </span>
       </span>
     </h1>

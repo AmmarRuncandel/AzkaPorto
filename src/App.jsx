@@ -7,6 +7,7 @@ import About from "./Pages/About";
 import AnimatedBackground from "./components/Background";
 import Navbar from "./components/Navbar";
 import Portofolio from "./Pages/Portofolio";
+import EnglishProficiency from "./Pages/EnglishProficiency";
 import ContactPage from "./Pages/Contact";
 import WelcomeScreen from "./Pages/WelcomeScreen";
 import { AnimatePresence } from 'framer-motion';
@@ -28,6 +29,7 @@ const LandingPage = ({ showWelcome, setShowWelcome }) => {
           <Home />
           <About />
           <Portofolio />
+          <EnglishProficiency />
           <ContactPage />
           <footer className="pb-8">
             <center>
